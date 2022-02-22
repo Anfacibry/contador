@@ -1,4 +1,5 @@
 import 'package:contador/constantes.dart';
+import 'package:contador/elementos/stilo_botao.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(const MyApp());
@@ -26,6 +27,19 @@ class TelaHome extends StatefulWidget {
 }
 
 class _TelaHomeState extends State<TelaHome> {
+  int _quantidade = 00;
+  void aumentando() {
+    setState(() {
+      _quantidade++;
+    });
+  }
+
+  void dimin() {
+    setState(() {
+      _quantidade--;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final double altura = MediaQuery.of(context).size.height;
@@ -47,18 +61,48 @@ class _TelaHomeState extends State<TelaHome> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Text("Pode entrar!"),
-            const Text("00"),
+            Text(
+              _quantidade == 20 ? "Não pode entrar" : "Pode entrar!",
+              style: const TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.w400,
+                color: Color(0xFF3C3C3C),
+              ),
+            ),
+            Text(
+              _quantidade.toString(),
+              style: const TextStyle(
+                fontSize: 64,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF3C3C3C),
+              ),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                TextButton(
-                  onPressed: () {},
-                  child: const Text("Sair"),
+                ElevatedButton(
+                  onPressed: _quantidade > 0 ? dimin : null,
+                  child: const Text(
+                    "Sair",
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  style: BotaoStilo().stiloBotao,
                 ),
-                TextButton(
-                  onPressed: () {},
-                  child: const Text("Entrar"),
+                ElevatedButton(
+                  onPressed: _quantidade < 20 ? aumentando : null,
+                  child: const Text(
+                    "Entrar",
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  style: BotaoStilo().stiloBotao,
                 ),
               ],
             )
