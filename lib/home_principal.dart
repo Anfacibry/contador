@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'constantes.dart';
-import 'elementos/stilo_botao.dart';
 
 class TelaHome extends StatefulWidget {
   const TelaHome({Key? key}) : super(key: key);
@@ -23,6 +22,9 @@ class _TelaHomeState extends State<TelaHome> {
       _quantidade--;
     });
   }
+
+  bool get podeEntrar => _quantidade == 0;
+  bool get naoEntrar => _quantidade == 20;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +48,7 @@ class _TelaHomeState extends State<TelaHome> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              _quantidade == 20 ? "Não pode entrar" : "Pode entrar!",
+              naoEntrar ? "Não pode entrar" : "Pode entrar!",
               style: const TextStyle(
                 fontSize: 30,
                 fontWeight: FontWeight.w400,
@@ -55,17 +57,17 @@ class _TelaHomeState extends State<TelaHome> {
             ),
             Text(
               _quantidade.toString(),
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 64,
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF3C3C3C),
+                color: naoEntrar ? Colors.red : const Color(0xFF3C3C3C),
               ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                ElevatedButton(
-                  onPressed: _quantidade > 0 ? dimin : null,
+                TextButton(
+                  onPressed: podeEntrar ? null : dimin,
                   child: const Text(
                     "Sair",
                     style: TextStyle(
@@ -74,10 +76,19 @@ class _TelaHomeState extends State<TelaHome> {
                       color: Colors.white,
                     ),
                   ),
-                  style: BotaoStilo().stiloBotao,
+                  style: TextButton.styleFrom(
+                    backgroundColor: podeEntrar
+                        ? const Color(0xFF209DB8).withOpacity(.30)
+                        : const Color(0xFF209DB8),
+                    fixedSize: const Size(100, 77),
+                    primary: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
                 ),
-                ElevatedButton(
-                  onPressed: _quantidade < 20 ? aumentando : null,
+                TextButton(
+                  onPressed: naoEntrar ? null : aumentando,
                   child: const Text(
                     "Entrar",
                     style: TextStyle(
@@ -86,7 +97,16 @@ class _TelaHomeState extends State<TelaHome> {
                       color: Colors.white,
                     ),
                   ),
-                  style: BotaoStilo().stiloBotao,
+                  style: TextButton.styleFrom(
+                    backgroundColor: naoEntrar
+                        ? const Color(0xFF209DB8).withOpacity(.30)
+                        : const Color(0xFF209DB8),
+                    fixedSize: const Size(100, 77),
+                    primary: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
                 ),
               ],
             )
